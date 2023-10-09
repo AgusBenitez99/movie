@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head')%>
+
+<body>
+   
+    
+    <%- include('partials/header')%>
+   
+    <div class="row mt-5">
+        <div class="col-12 col-md-9 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h1>PELÍCULAS</h1>
+                </div>
+                <div class="card-body">
+                      <div class="d-flex flex-column gap-2 flex-md-row justify-content-between my-3">
+                        <a href="/products/add" class="btn btn-outline-dark"><i class="fas fa-plus"></i>
+                            Agregar</a>
+                        <form action="/products/search"
+                            class="d-flex flex-column flex-md-row  gap-2" method="GET">
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected hidden>Filtrar por marca</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+
+                            <input type="text" class="form-control" placeholder="Buscar..."
+                                name="keyword">
+                            <button type="submit" class="btn btn-outline-dark">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                       
+                        <table class="table table-striped">
+                            <thead>
+                               
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">Awards</th>
+                                <th scope="col">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% movies.forEach((movie)=> { %>
+                                <tr>
+                                <th scope="row"><%= movie.id %></th>
+                                <td><%= movie.title %></td>
+                                <td><%= movie.rating %></td>
+                                <td><%= movie.awards %></td>   
+                                <td>
+                                    <div class="d-flex gap-2">
+            
+                                        <button type="button"
+                                            class="btn btn-sm btn-outline-dark"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalDetail<%= movie.id %>">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+            
+                                        <%- include('partials/modalProductDetail',{ ...movie.dataValues })%>
+            
+                                            <a href="/movies/edit/<%= movie.id %>"
+                                                class="btn btn-sm btn-outline-dark">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+            
+                                            <button type="button"
+                                                class="btn btn-sm btn-outline-dark"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalDelete<%=movie.id%>">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+            
+                                            <div class="modal fade" id="modalDelete<%=movie.id%>"
+                                                tabindex="-1"
+                                                aria-labelledby="modalDeleteLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="modalDeleteLabel">
+                                                                Advertencia
+                                                            </h5>
+                                                            <button type="button"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>¿Estás seguro que querés
+                                                                eliminar la pelicula <b>
+                                                                    <%= movie.title %>
+                                                                </b>?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button"
+                                                                class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                            <form
+                                                                action="/products/remove/<%=movie.id%>?_method=DELETE"
+                                                                method="POST">
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Eliminalo</button>
+                                                            </form>
+            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+            
+                                    </div>
+                                </td>
+                               
+                              </tr>
+                              <% }) %>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+        
+            
+       
+           
+     
+
+    
+</body>
+
+</html>
