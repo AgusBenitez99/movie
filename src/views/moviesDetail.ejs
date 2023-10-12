@@ -1,27 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= movie.title %> </title>
-    <link rel='stylesheet' href='/css/style.css' />
-
-</head>
-<body>
-    <figure>
-        <img src="/img/logo-DH.png" alt="Logo Digital House">
-    </figure>
-    <h1><%= movie.title %> </h1>    
-    <br>
-    <p>RATING: <%= movie.rating %> </p>
-    <p>AWARDS: <%= movie.awards %> </p>
-    <p>LENGTH: <%= movie.length + ' min'%> </p>
-    <p>RELEASE DATE: <%= movie.release_date %> </p>
-    <p>genero:<%= movie.genre.name %></p>
-    <br>
-    <section>
-        <a class="botonAgregar" href="/movies/edit/<%= movie.id %>">Editar pelicula</a>
-    </section>
-
-</body>
+  <%- include('partials/head')%>
+  <body>
+    <main>
+        <%- include('partials/header')%>
+      <div class="card col-12 col-md-8 mx-auto mt-5">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/movies">Peliculas</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Película: <%= movie.title %>
+              </li>
+            </ol>
+          </nav>
+          <a
+            class="btn btn-sm btn-outline-dark text-center"
+            href="/movies/edit/<%= movie.id %>"
+            >Editar Pelicula</a
+          >
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <img
+                class="img-fluid"
+                src="/img/<%= movie.image || 'logo-DH.png' %>"
+                alt=""
+              />
+            </div>
+            <div class="col-12 col-md-8">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item fw-bold">
+                  <%= movie.title.toUpperCase() %>
+                </li>
+                <li class="list-group-item">
+                  <b>Genero:</b><%= movie.genre.name %>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between">
+                    <span> <b>Duración:</b><%= movie.length %> </span>
+                    <span> <b>Premios:</b><%= movie.awards %> </span>
+                    <span> <b>Rating:</b><%= movie.rating %> </span>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <h6 class="fw-bold">Actores:</h6>
+                  <ul class="list-group list-group-flush">
+                    <% if (movie.actors.length) { %> <%
+                    movie.actors.forEach(actor => { %>
+                    <li class="list-group-item">
+                      <%= actor.first_name %> <%= actor.last_name %>
+                    </li>
+                    <% }) %> <% } else { %>
+                    <p class="text-muted">No hay actores asociados</p>
+                    <% } %>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
